@@ -29,3 +29,17 @@
     to {opacity: 0;}
 
 }
+
+.fadeIn{
+    animation: fadeIn;
+    animation-duration: 0.5s;
+}
+
+.fadeOut{
+    animation: fadeOut;
+    animation-duration: 0.5s;
+}
+/*
+위 fadeIn과 fadeOut이라는 css class를 만들었기 때문에 html과 js에서
+해당 class를 가진 모든 것에 대해 저 class내에 저장된 속성을 부여할 수 있다.
+*/

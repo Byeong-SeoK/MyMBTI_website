@@ -5,6 +5,12 @@ function addAnswer(answerText, qIdx){
     var a = document.querySelector('.answerBox');
     var answer = document.createElement('button');//button이라는 것을 js를 통해서 만드는 것이다.
     answer.classList.add('answerList');//버튼을 사용하기 위해 버튼에 대해 id값을 부여하는 것이다.
+    answer.classList.add('my-3');
+    answer.classList.add('py-3');
+    answer.classList.add('mx-auto');
+    //위 3개 코드는 js에서 padding과 margin에 대해 값을 넣는 코드이다.
+    answer.classList.add('fadeIn');
+    
     a.appendChild(answer);
     //answer를 통해서 만든 버튼을 a라는 변수에 추가될 수 있도록 하는 것이다.
     //즉, 만든 버튼들을 answerBox라는 id값을 가진 태그를 통해 보여주기 위해
@@ -20,9 +26,15 @@ function addAnswer(answerText, qIdx){
         
         for(let i = 0; i < children.length; i++){
             children[i].disabled = true;//사용자가 클릭한 다음 버튼을 비활성화되게 만드는 것이다.
-            children[i].style.display = 'none';//버튼을 사라지게 만들기 위해 none값을 부여한다.
+            children[i].style.WebkitAnimation = "fadeOut 0.5s";
+            children[i].style.animation = "fadeOut 0.5s";
         }
-        goNext(++qIdx);//다음 질문을 호출하는 것이다.
+        setTimeout(() => {
+            for(let i = 0; i < children.length; i++){
+                children[i].style.display = 'none';//버튼을 사라지게 만들기 위해 각 버튼에게 none값을 부여한다.
+            }
+            goNext(++qIdx);//다음 질문을 호출하는 것이다.
+        }, 450)
     }, false);
 }
 
