@@ -1,5 +1,6 @@
 const main = document.querySelector("#main");
 const qna = document.querySelector("#qna");
+const endPoint = 12;//이 변수는 총 질문의 개수를 가지고 있는 변수이다.
 
 function addAnswer(answerText, qIdx){
     var a = document.querySelector('.answerBox');
@@ -46,6 +47,8 @@ function goNext(qIdx){
         //안의 파라미터는 data.js의 qnalist에서 qIdx번째의 질문에 대한 답변 태그 a에 대해
         //i라는 for문 변수를 통해서 하나씩 접근하여 그 배열안의 answer 키값에 접근하는 것이다.
     }
+    var status = document.querySelector('.statusBar');
+    status.style.width = (100/endPoint)*(qIdx+1)+'%';//상태 바가 질문 하나 끝날때마다 차오르는 방식이다.
 }
 
 function begin(){
