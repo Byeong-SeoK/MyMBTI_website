@@ -1,6 +1,22 @@
 const main = document.querySelector("#main");
 const qna = document.querySelector("#qna");
+const result = document.querySelector("#result");
 const endPoint = 12;//이 변수는 총 질문의 개수를 가지고 있는 변수이다.
+
+function goResult(){
+    qna.style.WebkitAnimation = "fadeOut 1s";
+    qna.style.animation = "fadeOut 1s";
+
+    setTimeout(() => {
+        result.style.WebkitAnimation = "fadeIn 1s";
+        result.style.animation = "fadeIn 1s";
+
+        setTimeout(() => {
+            qna.style.display = "none";
+            result.style.display = "block";
+        },450);
+    }, 450);
+}
 
 function addAnswer(answerText, qIdx){
     var a = document.querySelector('.answerBox');
@@ -40,6 +56,9 @@ function addAnswer(answerText, qIdx){
 }
 
 function goNext(qIdx){
+    if(qIdx+1 === endPoint){//질문을 끝까지 다했을 때 결과 창으로 넘기는 함수 호출
+        return goResult();
+    }
     var q = document.querySelector('.qBox');
     q.innerHTML = qnaList[qIdx].q;
     for(let i in qnaList[qIdx].a){
