@@ -2,6 +2,55 @@ const main = document.querySelector("#main");
 const qna = document.querySelector("#qna");
 const result = document.querySelector("#result");
 const endPoint = 12;//이 변수는 총 질문의 개수를 가지고 있는 변수이다.
+const select = []; //사용자가 질문에 대해 어떤 답을 하였는지 저장하는 배열이다.
+
+function calResult(){
+    var pointArray= [
+        {name: 'mouse', value: 0 , key: 0},
+        {name: 'cow', value: 0 , key: 1},
+        {name: 'tiger', value: 0 , key: 2},
+        {name: 'rabbit', value: 0 , key: 3},
+        {name: 'dragon', value: 0 , key: 4},
+        {name: 'snake', value: 0 , key: 5},
+        {name: 'horse', value: 0 , key: 6},
+        {name: 'sheep', value: 0 , key: 7},
+        {name: 'monkey', value: 0 , key: 8},
+        {name: 'chick', value: 0 , key: 9},
+        {name: 'dog', value: 0 , key: 10},
+        {name: 'pig', value: 0 , key: 11},
+    ]
+
+    for(let i = 0; i < endPoint; i++){
+        var target = qnaList[i].a[select[i]];
+        //위 qnaList[i].a[select[i]]를 통해서 target에 qnaList안의 a태그에 대해
+        //select배열에 저장된 사용자가 선택한 값에 해당하는 것이 target 변수에 담긴다.
+
+        for(let j = 0; j < target.type.length; j++){ //target안에 들어간 배열안에서 우리가 원하는 값을 찾는다.
+            for(let k = 0; k < pointArray.length; k++){
+                //pointArray와 targe간의 정보를 비교하여 value값을 올릴지말지의 for문 이다.
+                if(target.type[j] === pointArray[k].name){
+                    pointArray[k].value = pointArray[k].value+1;
+                    //값이 같으면 value를 하나 올려줌으로써 해당 답변이 몇번 선택되었는지 알 수 있게 해준다.
+                }
+            }
+        }
+    }
+
+    var resultArray = pointArray.sort(function(a,b){//pointArray를 value를 기준으로 내림차순으로 정렬한다.
+        if(a.value > b.value){
+            return -1;
+        }
+        else if(a.value < b.value){
+            return 1;
+        }
+        else{
+            return 0;
+        }
+    });
+
+    let resultword = resultArray[0].key;//0번째의 key가 value가 가장 높은 것에 해당하고 이를 반환하도록 한다.
+    return resultword;
+}
 
 function goResult(){
     qna.style.WebkitAnimation = "fadeOut 1s";
@@ -16,9 +65,11 @@ function goResult(){
             result.style.display = "block";
         },450);
     }, 450);
+
+    calResult();
 }
 
-function addAnswer(answerText, qIdx){
+function addAnswer(answerText, qIdx, idx){
     var a = document.querySelector('.answerBox');
     var answer = document.createElement('button');//button이라는 것을 js를 통해서 만드는 것이다.
     answer.classList.add('answerList');//버튼을 사용하기 위해 버튼에 대해 id값을 부여하는 것이다.
@@ -47,6 +98,7 @@ function addAnswer(answerText, qIdx){
             children[i].style.animation = "fadeOut 0.5s";
         }
         setTimeout(() => {
+            select[qIdx] = idx; //사용자가 qidx번째 질문에 대해 idx번째 답변을 하였음을 저장한다.
             for(let i = 0; i < children.length; i++){
                 children[i].style.display = 'none';//버튼을 사라지게 만들기 위해 각 버튼에게 none값을 부여한다.
             }
@@ -56,15 +108,16 @@ function addAnswer(answerText, qIdx){
 }
 
 function goNext(qIdx){
-    if(qIdx+1 === endPoint){//질문을 끝까지 다했을 때 결과 창으로 넘기는 함수 호출
+    if(qIdx === endPoint){//질문을 끝까지 다했을 때 결과 창으로 넘기는 함수 호출
         return goResult();
     }
     var q = document.querySelector('.qBox');
     q.innerHTML = qnaList[qIdx].q;
     for(let i in qnaList[qIdx].a){
-        addAnswer(qnaList[qIdx].a[i].answer, qIdx);//사용자에게 선택지를 보여주게하는 함수
+        addAnswer(qnaList[qIdx].a[i].answer, qIdx, i);//사용자에게 선택지를 보여주게하는 함수
         //안의 파라미터는 data.js의 qnalist에서 qIdx번째의 질문에 대한 답변 태그 a에 대해
         //i라는 for문 변수를 통해서 하나씩 접근하여 그 배열안의 answer 키값에 접근하는 것이다.
+        //해당 함수는 또 i라는 파라미터를 통해서 사용자가 어떤 답변을 선택하였는지 알 수 있게 해준다.
     }
     var status = document.querySelector('.statusBar');
     status.style.width = (100/endPoint)*(qIdx+1)+'%';//상태 바가 질문 하나 끝날때마다 차오르는 방식이다.
