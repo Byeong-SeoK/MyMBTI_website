@@ -2,8 +2,9 @@ const main = document.querySelector("#main");
 const qna = document.querySelector("#qna");
 const result = document.querySelector("#result");
 const endPoint = 12;//이 변수는 총 질문의 개수를 가지고 있는 변수이다.
-const select = []; //사용자가 질문에 대해 어떤 답을 하였는지 저장하는 배열이다.
+const select = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; //사용자가 질문에 대해 어떤 답을 하였는지 저장하는 배열이다.
 
+/*
 function calResult(){
     var pointArray= [
         {name: 'mouse', value: 0 , key: 0},
@@ -50,6 +51,16 @@ function calResult(){
 
     let resultword = resultArray[0].key;//0번째의 key가 value가 가장 높은 것에 해당하고 이를 반환하도록 한다.
     return resultword;
+}
+위 코드는 addAnswer함수에서 개선한 알고리즘 때문에 필요없게 되었다.
+*/
+
+function calResult(){
+    var result = select.indexOf(Math.max(...select));
+    //indexOf는 select의 특정 인덱스의 값을 반환해주는 함수이다.
+    //Math.max는 가장 큰 값을 반환해주는 함수이고 파라미터로 배열을 받은 상태이다.
+    //...은 전개 구문으로 select 배열을 컴파일 도중 펼칠 수 있도록 해주는 것이다.
+    return result;
 }
 
 function goResult(){
@@ -98,7 +109,16 @@ function addAnswer(answerText, qIdx, idx){
             children[i].style.animation = "fadeOut 0.5s";
         }
         setTimeout(() => {
-            select[qIdx] = idx; //사용자가 qidx번째 질문에 대해 idx번째 답변을 하였음을 저장한다.
+            var target = qnaList[qIdx].a[idx];
+            //qnaList[qIdx]는 qIdx번째 질문을 의미하고 a[Idx]는 사용자가 고른 답변의 a태그 값에 해당한다.
+            for(let j = 0; j < target.type.length; j++){
+                select[target[j]] = select[target[j]]+1;
+                //a태그의 type배열에 저장된 번호에 해당되는 select 배열의 인덱스의 값을 1씩 증가시킨다.
+                //이 코드를 통해서 위의 calResult의 복잡한 알고리즘이 필요없게 된다.
+            }
+
+            //select[qIdx] = idx; 
+            //사용자가 qidx번째 질문에 대해 idx번째 답변을 하였음을 저장한다.
             for(let i = 0; i < children.length; i++){
                 children[i].style.display = 'none';//버튼을 사라지게 만들기 위해 각 버튼에게 none값을 부여한다.
             }
