@@ -56,11 +56,49 @@ function calResult(){
 */
 
 function calResult(){
+    var pointArray= [
+        {name: 'mouse', value: 0 , key: 0},
+        {name: 'cow', value: 0 , key: 1},
+        {name: 'tiger', value: 0 , key: 2},
+        {name: 'rabbit', value: 0 , key: 3},
+        {name: 'dragon', value: 0 , key: 4},
+        {name: 'snake', value: 0 , key: 5},
+        {name: 'horse', value: 0 , key: 6},
+        {name: 'sheep', value: 0 , key: 7},
+        {name: 'monkey', value: 0 , key: 8},
+        {name: 'chick', value: 0 , key: 9},
+        {name: 'dog', value: 0 , key: 10},
+        {name: 'pig', value: 0 , key: 11},
+    ]
+
     var result = select.indexOf(Math.max(...select));
     //indexOf는 select의 특정 인덱스의 값을 반환해주는 함수이다.
     //Math.max는 가장 큰 값을 반환해주는 함수이고 파라미터로 배열을 받은 상태이다.
     //...은 전개 구문으로 select 배열을 컴파일 도중 펼칠 수 있도록 해주는 것이다.
     return result;
+}
+
+function SetResult(){ //resultName, resultImg 태그를 제어하고 디스플레이할 함수이다.
+    let point = calResult();
+    const resultName = document.querySelector('.resultname');
+    resultName.innerHTML = infoList[point].name;
+
+    var resultImg = document.createElement('img');
+    //MBTI에 해당하는 이미지를 화면에 출력하기 위해 이 함수에서 img라는 태그를 만들고
+    //이를 html 파일에 올려서 이미지를 사용자에게 보여주도록 한다.
+    const imgDiv = document.querySelector('#resultImg');
+    //id에 대한 것을 querySelect 하려면 .이 아닌 #을 사용한다.
+    //class에 대한 것을 querySelect 하려면 .을 사용해야한다.
+    var imgURL = 'img/image-' + point + '.png';
+    //해당 MBTI의 이미지의 주소값을 만든 것이다.
+    resultImg.src = imgURL
+    resultImg.alt = point; //이 코드는 나중에 공유하기를 위한 것이다.
+    resultImg.classList.add('img-fluid');
+    //img-fulid 속성을 resultImg에 넣음으로써 해당 img가 반응형으로 제어되고 표현될 수 있도록 한다.
+    imgDiv.appendChild(resultImg);
+
+    const resultDesc = document.querySelector('.resultDesc');
+    resultDesc.innerHTML = infoList[point].desc;
 }
 
 function goResult(){
@@ -77,7 +115,7 @@ function goResult(){
         },450);
     }, 450);
 
-    calResult();
+    SetResult();
 }
 
 function addAnswer(answerText, qIdx, idx){
