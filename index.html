@@ -32,6 +32,12 @@
         <link rel="stylesheet" href="./css/qna.css">
         <link rel="stylesheet" href="./css/animation.css">
         <link rel="stylesheet" href="./css/result.css">
+        <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+        <!--위 코드는 카카오를 통한 공유하기를 위한 첫번째 단계로 카카오 api를 불러오는 주소이다.-->
+        <script>
+            Kakao.init('42417b618684c1ffc8c1399cd39b8567');
+            Kakao.isInitialized();
+        </script>
     </head>
     <body>
         <div class="container">
@@ -74,10 +80,11 @@
                 <div class="resultDesc">
 
                 </div>
-                <button type="button" class="kakao mt-3 py-2 px-3">공유하기</button>
+                <button type="button" class="kakao mt-3 py-2 px-3" onclick="js:setShare()">공유하기</button>
             </section>
             <script src="./js/data.js" charset="utf-8"></script>
             <script src="./js/start.js" charset="utf-8"></script>
+            <script src="./js/share.js" charset="utf-8"></script>
         </div>
     </body>
 </html>
